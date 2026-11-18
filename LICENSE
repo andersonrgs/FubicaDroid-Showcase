@@ -1,0 +1,43 @@
+PROPRIETARY SOFTWARE LICENSE & INTELLECTUAL PROPERTY NOTICE
+===========================================================
+
+Copyright (c) 2026 Anderson RGS. All Rights Reserved.
+
+NOTICE: This repository ("FubicaDroid-Showcase") contains technical architecture 
+specifications, system designs, high-level computational models, and interface 
+definitions representing the intellectual property of Anderson RGS ("Owner").
+
+This repository is published solely for demonstration, technical evaluation, 
+and portfolio review purposes under an "Open Architecture, Closed Core" model.
+
+1. PROPRIETARY CORE
+The underlying implementation, source code, mathematical calibration surfaces, 
+volumetric efficiency tables, proprietary communication drivers, hexadecimal 
+telemetry parsers, edge-to-cloud sync protocols, and operational binaries of 
+FubicaDroid and Car Monitor remain closed-source and are the exclusive intellectual 
+property of the Owner.
+
+2. RESTRICTIONS
+No license, express or implied, by estoppel or otherwise, to any intellectual 
+property rights is granted herein. Without the express prior written consent of the 
+Owner, you may NOT:
+  (a) Copy, reproduce, redistribute, republish, or duplicate any portion of this 
+      repository, in whole or in part;
+  (b) Reverse engineer, decompile, disassemble, or extract algorithms, calibration 
+      matrices, or architectures for the purpose of reproducing the software;
+  (c) Utilize these specifications, formulas, or architecture documents to develop, 
+      train, commercialize, or deploy competing software, automotive telemetry 
+      solutions, or fleet management products;
+  (d) Remove or alter any copyright, trademark, or proprietary notice contained herein.
+
+3. COMMERCIAL INQUIRIES & LICENSING
+For commercial partnerships, enterprise licensing, fleet deployments, or source 
+code evaluation under Non-Disclosure Agreements (NDA), contact:
+Anderson RGS — andersonrgs@gmail.com
+
+4. DISCLAIMER
+THIS DOCUMENTATION IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS 
+FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHOR OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING 
+FROM THE USE OR APPLICATION OF THESE SPECIFICATIONS.
