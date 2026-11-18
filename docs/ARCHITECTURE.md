@@ -114,7 +114,7 @@ Adaptadores OBD-II de baixo custo (*clones ELM327 v1.5 / CHX*) sofrem de problem
 **Padrões de Engenharia Aplicados no FubicaDroid:**
 - **Drenagem Ativa Pré-Comando:** O fluxo de entrada (`InputStream`) é drenado por completo antes da emissão de qualquer comando AT ou consulta de PID, garantindo integridade de frame.
 - **Cadência Adaptativa de Enfileiramento:** O loop de transmissão serial implementa uma cadência de `120 ms` entre quadros completos, estabilizando a taxa em ~3 a 4 Hz sem sobreaquecer o chip ELM.
-- **Boot Delay de Hardware:** Pausa determinística de estabilização pós-`ATZ` (reset de hardware) permitindo o término do ciclo de inicialização do microcontrolador.
+- **Boot Delay de Hardware:** Pausa determinística de estabilização pós-reset de hardware do transceptor serial, permitindo o término do ciclo de inicialização do microcontrolador.
 - **Watchdog de Timeouts:** Mecanismo de tolerância a 25 falhas consecutivas antes de declarar a ECU inativa, evitando desconexões acidentais em semáforos com sistema *Start&Stop*.
 
 ---

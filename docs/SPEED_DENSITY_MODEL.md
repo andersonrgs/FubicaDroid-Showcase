@@ -64,36 +64,30 @@ O **FubicaDroid** embarca um **Motor de Inferência Física Speed-Density** exec
 ## 3. Formulação Termodinâmica e Mecânica
 
 ### 3.1. Densidade do Ar Admitido ($\rho_{air}$)
-A densidade do ar presente no coletor de admissão é derivada diretamente da Equação de Estado dos Gases Ideais:
+A densidade do ar presente no coletor de admissão é derivada conceitualmente da Equação de Estado dos Gases Ideais:
 
 \[
 P \cdot V = \frac{m}{M_{air}} \cdot R \cdot T \implies \rho_{air} = \frac{P \cdot M_{air}}{R \cdot T}
 \]
 
 Onde:
-- $P$: Pressão Absoluta do Coletor (**MAP**), obtida via PID OBD-II `010B` (convertida para $Pa$);
-- $M_{air}$: Massa molar aparente do ar atmosférico seco ($\approx 0{,}0289644 \text{ kg/mol}$);
-- $R$: Constante universal dos gases ($8{,}314462 \text{ J/(mol}\cdot\text{K)}$);
-- $T$: Temperatura Absoluta do Ar Admitido (**IAT**), obtida via PID OBD-II `010F` (convertida de Celsius para Kelvin: $T = T_{IAT} + 273{,}15$).
-
-Simplificando para unidades de engenharia automotiva com constante específica do ar seco ($R_{específico} \approx 287{,}058 \text{ J/(kg}\cdot\text{K)}$):
-
-\[
-\rho_{air} = \frac{P_{MAP} \times 1000}{287{,}058 \times (T_{IAT} + 273{,}15)} \quad [\text{kg/m}^3]
-\]
+- $P$: Pressão Absoluta do Coletor (**MAP**), obtida via telemetria OBD-II;
+- $M_{air}$: Massa molar do ar atmosférico;
+- $R$: Constante universal dos gases;
+- $T$: Temperatura Absoluta do Ar Admitido (**IAT** em Kelvin).
 
 ---
 
 ### 3.2. Volume Teórico de Ar Varrido ($\dot{V}_{theor}$)
-Em um motor a combustão de quatro tempos, cada cilindro completa um ciclo de admissão a cada duas rotações do virabrequim:
+Em um motor a combustão de quatro tempos, o deslocamento volumétrico teórico aspirado por unidade de tempo é expresso por:
 
 \[
-\dot{V}_{theor} = \frac{RPM}{2 \times 60} \cdot V_d \quad [\text{m}^3/\text{s}]
+\dot{V}_{theor} = \frac{RPM}{2 \times 60} \cdot V_d
 \]
 
 Onde:
-- $RPM$: Rotação do motor (PID `010C`);
-- $V_d$: Cilindrada volumétrica total do motor (ex.: $0{,}999 \times 10^{-3} \text{ m}^3$ para o Firefly 1.0 GSE).
+- $RPM$: Rotação instantânea do virabrequim;
+- $V_d$: Deslocamento volumétrico total do motor.
 
 ---
 
@@ -141,10 +135,7 @@ Q_{L/h} = \frac{\dot{m}_{fuel} \times 3600}{\rho_{fuel} \times 1000} \quad [\tex
    Quando a borboleta está fechada ($TPS \le limiar$), rotação acima da marcha lenta ($RPM > 1.200$) e vácuo alto ($MAP < limiar$), o motor entra em desaceleração com corte integral de injeção ($\dot{m}_{fuel} = 0 \implies Q_{L/h} = 0{,}0$).
 
 3. **Estimativa de Potência Mecânica Instantânea ($P_{cv}$):**
-   Derivada da taxa de energia química liberada pelo combustível multiplicada pelo rendimento térmico indicado ($\eta_{th}$) do motor Firefly:
-   \[
-   P_{cv} \approx \frac{\dot{m}_{fuel} \cdot PCI_{fuel} \cdot \eta_{th}(RPM, MAP)}{735{,}49875}
-   \]
+   Estimada conceitualmente a partir da taxa de liberação de energia química do combustível injetado combinada à curva de rendimento térmico indicado ($\eta_{th}$) do motor, sem expor os coeficientes proprietários de atrito e transmissão.
 
 ---
 

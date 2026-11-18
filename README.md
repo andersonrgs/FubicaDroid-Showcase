@@ -1,97 +1,41 @@
-# FubicaDroid — Telemetria Automotiva & Motor Speed-Density em Tempo Real
+# FubicaDroid — Telemetria Veicular Edge-to-Cloud, Android Auto Nativo & Modelagem Termodinâmica
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Kotlin-2.0-7F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin 2.0" />
+  <img src="https://img.shields.io/badge/Kotlin-2.0-7F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin" />
   <img src="https://img.shields.io/badge/Jetpack%20Compose-60%20FPS-4285F4.svg?style=for-the-badge&logo=android&logoColor=white" alt="Jetpack Compose" />
   <img src="https://img.shields.io/badge/Android%20Auto-CarAppService-34A853.svg?style=for-the-badge&logo=androidauto&logoColor=white" alt="Android Auto" />
-  <img src="https://img.shields.io/badge/OBD--II%20CAN-500%20kbaud-EA4335.svg?style=for-the-badge&logo=circuitverse&logoColor=white" alt="OBD-II CAN" />
+  <img src="https://img.shields.io/badge/Bluetooth-RFCOMM%20SPP-0082FC.svg?style=for-the-badge&logo=bluetooth&logoColor=white" alt="Bluetooth RFCOMM" />
+  <img src="https://img.shields.io/badge/Storage-SQLite%20Local-003B57.svg?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" />
   <img src="https://img.shields.io/badge/Architecture-Edge--to--Cloud-00BCD4.svg?style=for-the-badge" alt="Edge-to-Cloud" />
-  <img src="https://img.shields.io/badge/License-Proprietary%20Software-2D3748.svg?style=for-the-badge" alt="Proprietary License" />
+  <img src="https://img.shields.io/badge/IP%20Policy-Open%20Architecture%2C%20Closed%20Core-2D3748.svg?style=for-the-badge" alt="Closed Core" />
 </p>
 
 ---
 
-## 📌 Resumo Executivo
-
-O **FubicaDroid** é uma solução de engenharia de software embarcado e telemetria automotiva de borda (*Edge Computing*), desenvolvida para preencher a lacuna deixada por aplicativos genéricos de diagnóstico (como Torque Pro e Car Scanner).
-
-### O Problema
-1. **Ausência de Sensor MAF Físico:** Motores modernos de três cilindros e alta eficiência térmica — como a família **Stellantis GSE Firefly 1.0 (Citroën C3, Fiat Argo, Mobi, Cronos e Nova Strada)** — não possuem sensor físico de fluxo de ar (*Mass Air Flow - MAF*). Scanners genéricos retornam leituras nulas (`NO DATA` no PID `0110`), resultando em consumo instantâneo zerado ou aproximações imprecisas.
-2. **Alta Latência e Falta de Integração Nativa:** Aplicativos convencionais operam com interfaces legadas, latência perceptual perceptível e não possuem integração nativa com a tela do painel do veículo via Android Auto oficial.
-3. **Morte de Processos em Segundo Plano:** Camadas agressivas de gerenciamento de energia como o **Xiaomi HyperOS** e **Android 14+** encerram conexões seriais Bluetooth arbitrariamente quando a tela do celular é bloqueada.
-
-### A Solução FubicaDroid
-O **FubicaDroid** embarca um **Motor de Inferência Física Speed-Density** executado no próprio dispositivo, que deriva o fluxo mássico de ar ($\dot{m}_{air}$) através das leis dos gases ideais e da pressão no coletor (MAP), projetando mostradores esportivos em tempo real tanto no smartphone (a 60 FPS com Jetpack Compose) quanto na central multimídia original do veículo via **Android Auto CarAppService**, com sincronização em nuvem resiliente para o ecossistema [Car Monitor](https://andersonrgs.github.io/Car_dashboard/).
-
----
-
-## 🏛️ Diagrama de Arquitetura de Alto Nível
-
-```mermaid
-flowchart LR
-    subgraph VEICULO["Veículo (Stellantis GSE Firefly)"]
-        ECU["ECU Magneti Marelli / Bosch\n(Barramento CAN 11-bit 500 kbaud)"]
-        OBD["Adaptador CHX ELM327\n(Bluetooth Classic RFCOMM)"]
-        MULTIMIDIA["Central Multimídia\n(Citroën ConnectPlay / AA Host)"]
-        ECU -->|"PIDs SAE J1979\n(010C, 010B, 0105, 010D)"| OBD
-    end
-
-    subgraph ENGINE["FubicaDroid Edge Engine (Smartphone POCO X7 Pro)"]
-        FGS["Kotlin Foreground Service\n(Anti-Kill HyperOS / Android 14+)"]
-        DRIVER["Driver Serial Resiliente\n(Stream Drain + Timings)"]
-        FUSAO["Módulo de Fusão de Dados\n(Motor Speed-Density + Fused Location GPS)"]
-        
-        OBD -->|"SPP RFCOMM\nUUID 00001101"| DRIVER
-        DRIVER --> FGS
-        FGS --> FUSAO
-    end
-
-    subgraph SAIDAS["Saídas Simultâneas & Consumo"]
-        AA["Android Auto Nativo\n(CarAppService Oficial na Multimídia)"]
-        HUD["HUD Cockpit 60 FPS\n(Jetpack Compose Canvas + Espelho Noturno)"]
-        SYNC["Persistência & Sync Cloud\n(SQLite Local -> Pipeline Car Monitor)"]
-        
-        FUSAO -->|"StateFlow"| AA
-        FUSAO -->|"StateFlow (60 FPS)"| HUD
-        FUSAO -->|"Queue Assíncrona"| SYNC
-        AA -.->|"Projeção USB"| MULTIMIDIA
-    end
-
-    classDef car fill:#1e293b,stroke:#0ea5e9,stroke-width:2px,color:#f8fafc;
-    classDef engine fill:#0f172a,stroke:#8b5cf6,stroke-width:2px,color:#f8fafc;
-    classDef out fill:#022c22,stroke:#10b981,stroke-width:2px,color:#f8fafc;
-
-    class ECU,OBD,MULTIMIDIA car;
-    class FGS,DRIVER,FUSAO engine;
-    class AA,HUD,SYNC out;
-```
-
----
-
-## 📸 Galeria de Telas & Demonstração Visual
+## 📸 Evidências Visuais do Produto (Cockpit & Projeção Veicular)
 
 <div align="center">
   <table>
     <tr>
-      <th width="33%">Cockpit HUD Diurno (Compose)</th>
+      <th width="33%">HUD Esportivo (60 FPS Canvas)</th>
+      <th width="33%">Projeção Nativa Android Auto</th>
       <th width="33%">Modo Espelho HUD Noturno</th>
-      <th width="33%">Projeção Citroën ConnectPlay</th>
     </tr>
     <tr>
       <td align="center">
-        <img src="assets/hud-day.png" alt="Cockpit HUD Diurno" width="100%" />
+        <img src="assets/hud-day.png" alt="HUD Esportivo Jetpack Compose" width="100%" />
         <br />
-        <sub><i>Mostradores esportivos em Jetpack Compose Canvas a 60 FPS com marchas reais calculadas da caixa C513.</i></sub>
+        <sub><i>Mostradores esportivos em Jetpack Compose Canvas desacoplados da thread serial, operando a 60 FPS com marchas calculadas da caixa de câmbio.</i></sub>
       </td>
       <td align="center">
-        <img src="assets/hud-night-mirror.png" alt="Modo Espelho Noturno" width="100%" />
+        <img src="assets/android-auto-connectplay.png" alt="Projeção Android Auto ConnectPlay" width="100%" />
         <br />
-        <sub><i>Modo invertido de alto contraste para projeção ótica direta no para-brisa do carro.</i></sub>
+        <sub><i>Interface veicular oficial via CarAppService integrada à central multimídia de 10" com cartões Extended ASCII de baixa distração visual.</i></sub>
       </td>
       <td align="center">
-        <img src="assets/android-auto-connectplay.png" alt="Citroën ConnectPlay Android Auto" width="100%" />
+        <img src="assets/hud-night-mirror.png" alt="Modo Espelho HUD Noturno" width="100%" />
         <br />
-        <sub><i>Painel oficial via CarAppService com cartões dinâmicos em Extended ASCII (CP437) na tela de 10".</i></sub>
+        <sub><i>Inversão geométrica de matriz ótica com paleta de alto contraste para reflexão nítida diretamente no para-brisa.</i></sub>
       </td>
     </tr>
   </table>
@@ -99,24 +43,92 @@ flowchart LR
 
 ---
 
-## 📚 Documentação Técnica Aprofundada
+## 🏛️ Visão Executiva & Arquitetura End-to-End
 
-Explore os documentos de arquitetura e fundamentação técnica:
+O **FubicaDroid** é uma plataforma de engenharia de software automotivo e computação de borda (*Edge Computing*). Ele transforma um smartphone Android padrão em um computador de telemetria avançada de alta precisão, operando como ponte em tempo real entre o barramento CAN do veículo, o ecossistema Android Auto e pipelines de análise de dados em nuvem.
 
-* 📐 [**ARCHITECTURE.md**](docs/ARCHITECTURE.md) — Engenharia de software embarcado, resiliência contra fechamento em segundo plano no Xiaomi HyperOS / Android 14+, ciclo de vida do `CarAppService` e tratamento de transceptor serial clone.
-* ⚡ [**SPEED_DENSITY_MODEL.md**](docs/SPEED_DENSITY_MODEL.md) — Fundamentação matemática e termodinâmica do modelo *Speed-Density*, estimativa de fluxo mássico ($\dot{m}_{air}$), vazão de combustível ($L/h$), cut-off e potência estimada sem sensor MAF.
-* 💼 [**B2B_USE_CASES.md**](docs/B2B_USE_CASES.md) — Aplicações comerciais para frotas comerciais leves da plataforma Stellantis (Strada, Fiorino, Mobi, C3) e triagem expressa de 60 segundos na recepção de oficinas mecânicas.
+### Fluxo de Dados e Componentes da Solução
+
+```mermaid
+flowchart LR
+    subgraph IN_VEHICLE["Camada Veicular (In-Vehicle)"]
+        ECU["ECU Veicular\n(Barramento CAN)"]
+        OBD["Adaptador OBD-II\n(Bluetooth SPP/RFCOMM)"]
+        ECU -->|"Telemetria Serial"| OBD
+    end
+
+    subgraph EDGE["FubicaDroid Edge Engine (Smartphone)"]
+        FGS["Foreground Service Resiliente\n(Anti-Kill Android 15/16 & HyperOS)"]
+        ENGINE["Motor Analítico Speed-Density\n+ Fused Location GPS"]
+        
+        OBD -->|"RFCOMM Socket"| FGS
+        FGS --> ENGINE
+    end
+
+    subgraph OUTPUTS["Camada de Apresentação & Sincronização"]
+        AA["Android Auto Nativo\n(CarAppService Oficial)"]
+        STORAGE["Persistência Local\n(SQLite / CSV Scoped Storage)"]
+        CLOUD["Pipeline Car Monitor\n(Analytics & Telemetria Web)"]
+        
+        ENGINE -->|"StateFlow 60 FPS"| AA
+        ENGINE -->|"Batch assíncrono"| STORAGE
+        STORAGE -->|"Sync em background"| CLOUD
+    end
+
+    classDef car fill:#1e293b,stroke:#0ea5e9,stroke-width:2px,color:#f8fafc;
+    classDef edge fill:#0f172a,stroke:#8b5cf6,stroke-width:2px,color:#f8fafc;
+    classDef out fill:#022c22,stroke:#10b981,stroke-width:2px,color:#f8fafc;
+
+    class ECU,OBD car;
+    class FGS,ENGINE edge;
+    class AA,STORAGE,CLOUD out;
+```
 
 ---
 
-## 🛡️ Propriedade Intelectual & Modelo de Licenciamento
+## ⚙️ Desafios de Engenharia Resolvidos (O Valor Arquitetural)
 
-> **Modelo: Open Architecture, Closed Core**  
-> Este repositório disponibiliza publicamente a **arquitetura de alto nível, especificações técnicas e modelos conceituais de engenharia**.  
-> O código-fonte integral, drivers seriais de baixo nível, matrizes 3D calibradas de eficiência volumétrica ($VE$), tabelas de avanço e rotinas proprietárias de sincronização permanecem sob **segredo comercial e direitos autorais reservados** conforme estabelecido no arquivo [LICENSE](LICENSE).
+### 1. Estimativa de Consumo e Potência sem Sensor MAF Físico
+* **O Problema:** Motores modernos de downsizing aspirados da plataforma Stellantis GSE Firefly eliminam fisicamente o sensor MAF (*Mass Air Flow*) para redução de custos e restrição aerodinâmica de admissão. Scanners universais falham ao retornar leituras zeradas para vazão e consumo instantâneo.
+* **A Solução:** Implementação de um **Motor de Inferência Física Speed-Density** executado na borda. A partir da Lei dos Gases Ideais combinada com a dinâmica da rotação ($RPM$), pressão no coletor ($MAP$), temperatura admitida ($IAT$) e da superfície volumétrica de respiração do motor ($VE$), o sistema infere o fluxo mássico de ar ($\dot{m}_{air}$) e calcula com rigor termodinâmico o consumo instantâneo ($km/L$), vazão horária ($L/h$) e potência indicada em cavalos ($cv$).
+* 📘 *Detalhamento conceitual:* [docs/SPEED_DENSITY_MODEL.md](docs/SPEED_DENSITY_MODEL.md)
 
-Para parcerias corporativas, licenciamento de SDK embarcado (*white-label*) ou avaliações de código sob **Acordo de Confidencialidade (NDA)**:
+### 2. Integração Oficial Android Auto (`androidx.car.app`)
+* **O Problema:** Aplicativos tradicionais de telemetria exigem acesso root, hacks de espelhamento não-oficiais (AA Mirror, Screen2Auto) ou limitam-se à tela minúscula do smartphone presa em suportes de ventosa.
+* **A Solução:** Arquitetura 100% nativa utilizando a biblioteca oficial **Android for Cars App Library** (`CarAppService` e `Session`). A interface é construída sobre templates veiculares otimizados para redução de distração ao volante (*Driver Distraction Guidelines*), projetando cartões retangulares de alto contraste com bargraphs de estilete em qualquer central multimídia homologada (ex.: tela touchscreen de 10" do Citroën ConnectPlay).
+* 📘 *Decisões de projeto:* [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
-* 👤 **Engenheiro Líder:** Anderson RGS
-* 📧 **Contato:** `andersonrgs@gmail.com`
-* 🌐 **Plataforma Web de Telemetria:** [Car Monitor Dashboard](https://andersonrgs.github.io/Car_dashboard/)
+### 3. Resiliência em Background & Scoped Storage (Android 15/16 & HyperOS)
+* **O Problema:** Políticas severas de gerenciamento de bateria de fabricantes (como Xiaomi HyperOS, Samsung OneUI e versões recentes do Android) encerram conexões seriais RFCOMM arbitrariamente quando o aplicativo entra em background ou a tela do aparelho desliga.
+* **A Solução:** Estruturação de `ForegroundService` com declaração multi-tipo (`connectedDevice` e `location`), gerenciamento cirúrgico de `WakeLock`, orquestração por eventos de hardware (`BluetoothDevice.ACTION_ACL_CONNECTED`) sem polling desnecessário de CPU, e persistência em buffer local SQLite com Scoped Storage isolado, garantindo tracking ininterrupto em trajetos de centenas de quilômetros.
+* 📘 *Aplicações de frota e oficina:* [docs/B2B_USE_CASES.md](docs/B2B_USE_CASES.md)
+
+---
+
+## 📁 Estrutura da Documentação do Repositório
+
+```text
+├── README.md                  # Vitrine executiva, evidências visuais e arquitetura da solução
+├── LICENSE                    # Aviso de direitos autorais e política Open Architecture, Closed Core
+├── docs/
+│   ├── ARCHITECTURE.md        # Especificação detalhada de software embarcado, threads e resiliência
+│   ├── SPEED_DENSITY_MODEL.md # Fundamentação matemática da mecânica dos fluidos e termodinâmica
+│   └── B2B_USE_CASES.md       # Oportunidades comerciais para frotas comerciais leves e oficinas
+└── assets/                    # Artefatos visuais e evidências de execução veicular
+    ├── hud-day.png
+    ├── hud-night-mirror.png
+    └── android-auto-connectplay.png
+```
+
+---
+
+## 🛡️ Propriedade Intelectual & Licenciamento Restritivo
+
+> **Aviso de Propriedade Intelectual:**  
+> Este repositório é uma **Vitrine Arquitetural Pública (*Open Architecture, Closed Core*)** destinada exclusivamente a fins de portfólio executivo, avaliação arquitetural de alto nível e demonstração técnica.  
+> 
+> O código-fonte compilável do *core*, os drivers seriais de baixo nível, os mapas 3D proprietários de eficiência volumétrica ($VE$), as constantes de calibração veicular e as chaves de integração corporativa pertencem exclusivamente a **Anderson RGS** sob reserva total de direitos autorais ([LICENSE](LICENSE)). É expressamente vedada a reprodução, engenharia reversa ou exploração comercial sem autorização prévia por escrito.
+
+* **Autor / Arquiteto da Solução:** Anderson RGS
+* **Contato Corporativo:** `andersonrgs@gmail.com`
+* **Dashboard de Telemetria:** [https://andersonrgs.github.io/Car_dashboard/](https://andersonrgs.github.io/Car_dashboard/)

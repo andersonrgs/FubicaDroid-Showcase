@@ -1,43 +1,27 @@
-PROPRIETARY SOFTWARE LICENSE & INTELLECTUAL PROPERTY NOTICE
-===========================================================
+PROPRIETARY INTELLECTUAL PROPERTY NOTICE
+=========================================
 
-Copyright (c) 2026 Anderson RGS. All Rights Reserved.
+Copyright (c) 2026 Anderson RGS.
+All Rights Reserved - Architectural Showcase & Technical Case Study Only.
 
-NOTICE: This repository ("FubicaDroid-Showcase") contains technical architecture 
-specifications, system designs, high-level computational models, and interface 
-definitions representing the intellectual property of Anderson RGS ("Owner").
+IMPORTANT NOTICE:
+This repository ("FubicaDroid-Showcase") represents a public technical vitrine and architectural case study published under an "Open Architecture, Closed Core" engineering model.
 
-This repository is published solely for demonstration, technical evaluation, 
-and portfolio review purposes under an "Open Architecture, Closed Core" model.
-
-1. PROPRIETARY CORE
-The underlying implementation, source code, mathematical calibration surfaces, 
-volumetric efficiency tables, proprietary communication drivers, hexadecimal 
-telemetry parsers, edge-to-cloud sync protocols, and operational binaries of 
-FubicaDroid and Car Monitor remain closed-source and are the exclusive intellectual 
-property of the Owner.
+1. PROPRIETARY CORE & CONFIDENTIALITY
+The underlying execution core, source code (.kt, .java, .cpp), proprietary serial communication drivers, hexadecimal telemetry parsers, calibrated engine volumetric efficiency (VE) surfaces, thermodynamic coefficient tables, and edge-to-cloud synchronization services are confidential, proprietary, and the exclusive intellectual property of Anderson RGS ("Owner").
 
 2. RESTRICTIONS
-No license, express or implied, by estoppel or otherwise, to any intellectual 
-property rights is granted herein. Without the express prior written consent of the 
-Owner, you may NOT:
-  (a) Copy, reproduce, redistribute, republish, or duplicate any portion of this 
-      repository, in whole or in part;
-  (b) Reverse engineer, decompile, disassemble, or extract algorithms, calibration 
-      matrices, or architectures for the purpose of reproducing the software;
-  (c) Utilize these specifications, formulas, or architecture documents to develop, 
-      train, commercialize, or deploy competing software, automotive telemetry 
-      solutions, or fleet management products;
-  (d) Remove or alter any copyright, trademark, or proprietary notice contained herein.
+No license, express or implied, by estoppel or otherwise, to any trade secret, copyright, patent, or intellectual property right is granted by this repository. 
 
-3. COMMERCIAL INQUIRIES & LICENSING
-For commercial partnerships, enterprise licensing, fleet deployments, or source 
-code evaluation under Non-Disclosure Agreements (NDA), contact:
+Without the prior express written permission of the Owner, you may NOT:
+  (a) Reproduce, fork, redistribute, or publish any component of this repository;
+  (b) Decompile, reverse engineer, disassemble, or extract architectural schemas for commercial exploitation or replication;
+  (c) Utilize these specifications, formulas, or architecture documents to develop, train, commercialize, or deploy competing software, automotive telemetry solutions, or fleet management products;
+  (d) Remove, alter, or obscure any proprietary, copyright, or confidentiality notice.
+
+3. COMMERCIAL LICENSING & B2B INQUIRIES
+For enterprise partnerships, embedded SDK licensing, fleet telemetry deployment, or technical evaluation under Non-Disclosure Agreement (NDA), contact:
 Anderson RGS — andersonrgs@gmail.com
 
 4. DISCLAIMER
-THIS DOCUMENTATION IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS 
-FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHOR OR 
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING 
-FROM THE USE OR APPLICATION OF THESE SPECIFICATIONS.
+THIS DOCUMENTATION IS PROVIDED FOR PORTFOLIO AND DEMONSTRATION PURPOSES "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR LIABILITY ARISING FROM THE USE OF THESE SPECIFICATIONS.
